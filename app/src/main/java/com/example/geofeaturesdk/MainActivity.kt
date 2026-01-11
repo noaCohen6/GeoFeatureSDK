@@ -3,14 +3,11 @@ package com.example.geofeaturesdk
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.geofeaturelibrary.GeoFeatureSDK
@@ -21,6 +18,7 @@ import com.example.geofeaturesdk.utils.CurrencyFormatter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var productsRecyclerView: RecyclerView
@@ -30,12 +28,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var checkoutButton: MaterialButton
     private lateinit var productAdapter: ProductAdapter
 
-    private var currentCountry = "US"
-
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 100
-        private const val TAG = "MainActivity"
     }
+    private var currentCountry = "US"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +42,12 @@ class MainActivity : AppCompatActivity() {
 
         initViews()
 
-        // KOYEB!
+        //KOYEB
         GeoFeatureSDK.initialize("https://thundering-elfie-geofeature-a5030253.koyeb.app/", this)
-
-        if (!hasLocationPermission()) {
-            requestLocationPermission()
-        } else {
-            loadGeoFeatures()
-        }
+        requestLocationPermissionIfNeeded()
 
         loadProducts()
+        loadGeoFeatures()
     }
 
     private fun initViews() {
@@ -91,9 +83,7 @@ class MainActivity : AppCompatActivity() {
         productAdapter.updateProducts(products, currentCountry)
     }
 
-    /**
-     * טעינת GeoFeatures - ישירות מה-API!
-     */
+
     private fun loadGeoFeatures() {
         statusTextView.text = "Loading..."
 
@@ -106,11 +96,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * בדיקת פיצ'רים - ישירות מה-API!
-     */
+
     private fun checkFeatures() {
-        var messages = mutableListOf<String>()
+        val messages = mutableListOf<String>()
 
         // 1. Dark Mode
         GeoFeatureSDK.isFeatureEnabled(this, "dark_mode") { enabled, _ ->
@@ -119,7 +107,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 2. Payment Methods - ישירות מה-VALUE!
+        // 2. Payment Methods
         GeoFeatureSDK.isFeatureEnabled(this, "payment_methods") { enabled, value ->
             if (enabled && value != null) {
                 val count = value.split(",").size
@@ -127,7 +115,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 3. Black Friday - ישירות מה-VALUE!
+        // 3. Black Friday
         GeoFeatureSDK.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
             runOnUiThread {
                 if (enabled && value != null) {
@@ -136,7 +124,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "🎉 Black Friday Sale: $discount% OFF!", Toast.LENGTH_LONG).show()
                 }
 
-                // הצג הכל
                 statusTextView.text = if (messages.isEmpty()) {
                     "✅ Connected to API"
                 } else {
@@ -146,8 +133,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateLocationUI(country: String) {
-        val countryName = getCountryName(country)
+        val countryName = GeoFeatureSDK.getCountryName(country)
         val currencyInfo = CurrencyFormatter.getCurrencyInfo(country)
 
         locationTextView.text = "📍 $countryName"
@@ -156,22 +144,10 @@ class MainActivity : AppCompatActivity() {
         productAdapter.updateCountry(country)
     }
 
-    private fun getCountryName(code: String): String {
-        return when (code.uppercase()) {
-            "IL" -> "Israel 🇮🇱"
-            "US" -> "United States 🇺🇸"
-            "GB" -> "United Kingdom 🇬🇧"
-            "FR" -> "France 🇫🇷"
-            "DE" -> "Germany 🇩🇪"
-            else -> code
-        }
-    }
-
     private fun updateCartBadge() {
         invalidateOptionsMenu()
     }
 
-    // ================ Menu ================
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -205,21 +181,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ================ Permissions ================
-
-    private fun hasLocationPermission(): Boolean {
-        return ActivityCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun requestLocationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    private fun requestLocationPermissionIfNeeded() {
+        if (!GeoFeatureSDK.hasLocationPermission(this)) {
             requestPermissions(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -238,12 +201,11 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "✅ Location permission granted")
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "✅ GPS enabled!", Toast.LENGTH_SHORT).show()
                 loadGeoFeatures()
             } else {
-                Log.w(TAG, "❌ Location permission denied - using locale")
-                loadGeoFeatures()
+                Toast.makeText(this, "⚠️ Using Locale", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -252,6 +214,5 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         updateCartBadge()
         loadGeoFeatures()
-
     }
 }
