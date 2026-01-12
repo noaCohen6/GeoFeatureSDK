@@ -79,11 +79,10 @@ class SettingsActivity : AppCompatActivity() {
                     "✅ Country set to: ${countries[selectedIndex].second}",
                     Toast.LENGTH_SHORT
                 ).show()
-                loadCurrentCountry()
+                updateDisplay(selectedCountry, isManual = true)
             }
         }
 
-        // כפתור Clear - חזרה לאוטומטי
         clearButton.setOnClickListener {
             GeoFeatureSDK.clearUserCountry(this)
             useManualCountrySwitch.isChecked = false
@@ -92,32 +91,38 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * טעינת המדינה הנוכחית
-     */
+
     private fun loadCurrentCountry() {
-        GeoFeatureSDK.getCurrentCountry(this) { country ->
+        val manualCountry = GeoFeatureSDK.getUserCountry(this)
+
+        if (manualCountry != null) {
             runOnUiThread {
-                val manualCountry = GeoFeatureSDK.getUserCountry(this)
-                val isManual = manualCountry != null
-
-                val countryName = countries.find { it.first == country }?.second ?: country
-
-                if (isManual) {
-                    currentCountryTextView.text = "Current: $countryName (Manual Override)"
-                } else {
-                    currentCountryTextView.text = "Current: $countryName (Auto-detected)"
-                }
-
-                // עדכון Switch
-                useManualCountrySwitch.isChecked = isManual
-
-                // עדכון Spinner
-                val countryIndex = countries.indexOfFirst { it.first == country }
-                if (countryIndex >= 0) {
-                    countrySpinner.setSelection(countryIndex)
+                updateDisplay(manualCountry, isManual = true)
+            }
+        } else {
+            GeoFeatureSDK.getCurrentCountry(this) { country ->
+                runOnUiThread {
+                    updateDisplay(country, isManual = false)
                 }
             }
+        }
+    }
+
+
+    private fun updateDisplay(country: String, isManual: Boolean) {
+        val countryName = countries.find { it.first == country }?.second ?: country
+
+        if (isManual) {
+            currentCountryTextView.text = "Current: $countryName (Manual Override)"
+        } else {
+            currentCountryTextView.text = "Current: $countryName (Auto-detected)"
+        }
+
+        useManualCountrySwitch.isChecked = isManual
+
+        val countryIndex = countries.indexOfFirst { it.first == country }
+        if (countryIndex >= 0) {
+            countrySpinner.setSelection(countryIndex)
         }
     }
 

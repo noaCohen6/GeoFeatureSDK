@@ -10,6 +10,7 @@ import com.example.geofeaturelibrary.GeoFeatureSDK
 import com.example.geofeaturesdk.adapters.CartAdapter
 import com.example.geofeaturesdk.models.ShoppingCart
 import com.example.geofeaturesdk.utils.CurrencyFormatter
+import com.example.geofeaturesdk.utils.GeoHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -84,7 +85,8 @@ class CheckoutActivity : AppCompatActivity() {
 
 
     private fun loadDataFromAPI() {
-        GeoFeatureSDK.getCurrentCountry(this) { country ->
+        // 🎯 Using GeoHelper to respect manual override!
+        GeoHelper.getCurrentCountry(this) { country ->
             currentCountry = country
             runOnUiThread {
                 cartAdapter.updateCountry(country)
@@ -97,10 +99,10 @@ class CheckoutActivity : AppCompatActivity() {
 
 
     private fun loadPaymentMethods() {
-        GeoFeatureSDK.isFeatureEnabled(this, "payment_methods") { enabled, value ->
+        // 🎯 Using GeoHelper to respect manual override!
+        GeoHelper.isFeatureEnabled(this, "payment_methods") { enabled, value ->
             runOnUiThread {
                 if (enabled && value != null) {
-                    // פיצול הערכים: "credit_card,paypal,bit" → ["credit_card", "paypal", "bit"]
                     val methods = value.split(",").map { it.trim() }
 
                     paymentMethodsChipGroup.removeAllViews()
@@ -130,7 +132,8 @@ class CheckoutActivity : AppCompatActivity() {
 
 
     private fun checkDiscount() {
-        GeoFeatureSDK.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
+        // 🎯 Using GeoHelper to respect manual override!
+        GeoHelper.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
             runOnUiThread {
                 if (enabled && value != null) {
                     discountPercent = value.toIntOrNull() ?: 0

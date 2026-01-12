@@ -15,6 +15,7 @@ import com.example.geofeaturesdk.adapters.ProductAdapter
 import com.example.geofeaturesdk.models.Product
 import com.example.geofeaturesdk.models.ShoppingCart
 import com.example.geofeaturesdk.utils.CurrencyFormatter
+import com.example.geofeaturesdk.utils.GeoHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 
@@ -87,7 +88,10 @@ class MainActivity : AppCompatActivity() {
     private fun loadGeoFeatures() {
         statusTextView.text = "Loading..."
 
-        GeoFeatureSDK.getCurrentCountry(this) { country ->
+        // Using GeoHelper instead of SDK directly!
+        // This respects manual override even when GPS is available
+        //For Tasting
+        GeoHelper.getCurrentCountry(this) { country ->
             currentCountry = country
             runOnUiThread {
                 updateLocationUI(country)
@@ -101,14 +105,14 @@ class MainActivity : AppCompatActivity() {
         val messages = mutableListOf<String>()
 
         // 1. Dark Mode
-        GeoFeatureSDK.isFeatureEnabled(this, "dark_mode") { enabled, _ ->
+        GeoHelper.isFeatureEnabled(this, "dark_mode") { enabled, _ ->
             if (enabled) {
                 messages.add("🌙 Dark mode available")
             }
         }
 
         // 2. Payment Methods
-        GeoFeatureSDK.isFeatureEnabled(this, "payment_methods") { enabled, value ->
+        GeoHelper.isFeatureEnabled(this, "payment_methods") { enabled, value ->
             if (enabled && value != null) {
                 val count = value.split(",").size
                 messages.add("💳 $count payment methods")
@@ -116,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 3. Black Friday
-        GeoFeatureSDK.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
+        GeoHelper.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
             runOnUiThread {
                 if (enabled && value != null) {
                     val discount = value.toIntOrNull() ?: 0

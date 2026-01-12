@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.geofeaturelibrary.GeoFeatureSDK
 import com.example.geofeaturesdk.adapters.FeatureStatusAdapter
 import com.example.geofeaturesdk.models.FeatureStatus
+import com.example.geofeaturesdk.utils.GeoHelper
 import com.google.android.material.textview.MaterialTextView
 
-
+/**
+ * Debug screen showing all features and their status for the current country.
+ * Uses GeoHelper to respect manual country override from Settings.
+ */
 class FeaturesListActivity : AppCompatActivity() {
 
     private lateinit var countryTextView: MaterialTextView
@@ -30,6 +33,7 @@ class FeaturesListActivity : AppCompatActivity() {
         loadFeatures()
     }
 
+
     private fun initViews() {
         countryTextView = findViewById(R.id.countryTextView)
         featuresRecyclerView = findViewById(R.id.featuresRecyclerView)
@@ -40,8 +44,11 @@ class FeaturesListActivity : AppCompatActivity() {
     }
 
 
+     //Detect current country and load features.
+     //GeoHelper checks manual override first, then falls back to SDK (GPS/Locale).
     private fun loadFeatures() {
-        GeoFeatureSDK.getCurrentCountry(this) { country ->
+        // Get current country (respects manual override if set in Settings)
+        GeoHelper.getCurrentCountry(this) { country ->
             currentCountry = country
             runOnUiThread {
                 countryTextView.text = "Checking features for: $country"
@@ -50,7 +57,10 @@ class FeaturesListActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Check all features for the current country.
+     * Queries each feature from the server and displays the results.
+     */
     private fun checkAllFeatures() {
         val featuresToCheck = listOf(
             "dark_mode",
@@ -63,8 +73,11 @@ class FeaturesListActivity : AppCompatActivity() {
         var checkedCount = 0
 
         featuresToCheck.forEach { featureName ->
-            GeoFeatureSDK.isFeatureEnabled(this, featureName) { enabled, value ->
+            // Check if feature is enabled for current country
+            // Flow: GeoHelper → SDK → Server API → callback with result
+            GeoHelper.isFeatureEnabled(this, featureName) { enabled, value ->
                 runOnUiThread {
+                    // Add feature status to list
                     featureStatuses.add(
                         FeatureStatus(
                             name = featureName,
@@ -75,6 +88,7 @@ class FeaturesListActivity : AppCompatActivity() {
                     )
 
                     checkedCount++
+                    // When all features checked, update the UI
                     if (checkedCount == featuresToCheck.size) {
                         featureAdapter.updateFeatures(featureStatuses.sortedBy { it.name })
                     }
