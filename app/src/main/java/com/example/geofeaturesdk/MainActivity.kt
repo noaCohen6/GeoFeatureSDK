@@ -104,14 +104,9 @@ class MainActivity : AppCompatActivity() {
     private fun checkFeatures() {
         val messages = mutableListOf<String>()
 
-        // 1. Dark Mode
-        GeoHelper.isFeatureEnabled(this, "dark_mode") { enabled, _ ->
-            if (enabled) {
-                messages.add("🌙 Dark mode available")
-            }
-        }
 
-        // 2. Payment Methods
+
+        // 1. Payment Methods
         GeoHelper.isFeatureEnabled(this, "payment_methods") { enabled, value ->
             if (enabled && value != null) {
                 val count = value.split(",").size
@@ -119,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 3. Black Friday
+        // 2. Black Friday
         GeoHelper.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
             runOnUiThread {
                 if (enabled && value != null) {

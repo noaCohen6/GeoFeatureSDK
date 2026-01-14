@@ -63,7 +63,6 @@ class FeaturesListActivity : AppCompatActivity() {
      */
     private fun checkAllFeatures() {
         val featuresToCheck = listOf(
-            "dark_mode",
             "payment_methods",
             "currency_display",
             "black_friday_discount"
