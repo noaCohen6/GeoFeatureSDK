@@ -1,6 +1,45 @@
 # 📚 GeoFeature Library
 
+[![JitPack](https://jitpack.io/v/noaCohen6/GeoFeatureSDK.svg)](https://jitpack.io/#noaCohen6/GeoFeatureSDK)
+
 Android SDK for controlling app features based on user's country with automatic GPS detection.
+
+---
+
+## 📦 Installation
+
+### Step 1: Add JitPack repository
+
+Add this to your **settings.gradle.kts** (Project level):
+
+```kotlin
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }  // Add this line
+    }
+}
+```
+
+---
+
+### Step 2: Add dependency
+
+Add this to your **app/build.gradle.kts** (Module level):
+
+```kotlin
+dependencies {
+    implementation("com.github.noaCohen6:GeoFeatureSDK:1.0.0")
+}
+```
+
+---
+
+### Step 3: Sync Gradle
+
+Click **"Sync Now"** in Android Studio.
 
 ---
 
@@ -135,6 +174,8 @@ You need an API server: [GeoFeatureSDK-API](https://github.com/noaCohen6/GeoFeat
 ---
 
 ## 📦 Dependencies
+
+The library includes these dependencies (automatically added):
 
 ```gradle
 dependencies {

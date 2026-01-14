@@ -1,5 +1,7 @@
 # 🌍 GeoFeatureSDK
 
+[![JitPack](https://jitpack.io/v/noaCohen6/GeoFeatureSDK.svg)](https://jitpack.io/#noaCohen6/GeoFeatureSDK)
+
 **Android SDK + Demo App** for controlling app features based on user's country with automatic GPS detection.
 
 ---
@@ -62,9 +64,46 @@ cd GeoFeatureSDK
 
 **Note:** You'll need the API server running. See [Backend Setup](#-backend-setup) below.
 
+---
+
 ### Option 2: Use the Library in Your App
 
-See the **[Library Documentation](./GeoFeatureLibrary/README.md)** for integration guide.
+#### Step 1: Add JitPack repository
+
+Add this to your **settings.gradle.kts** (Project level):
+
+```kotlin
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }  // Add this line
+    }
+}
+```
+
+---
+
+#### Step 2: Add dependency
+
+Add this to your **app/build.gradle.kts** (Module level):
+
+```kotlin
+dependencies {
+    implementation("com.github.noaCohen6:GeoFeatureSDK:1.0.0")
+}
+```
+
+
+
+---
+
+#### Step 3: Sync Gradle & Use!
+
+Click **"Sync Now"** in Android Studio, then see [Usage Example](#-usage-example) below.
+
+**For detailed integration guide, see the [Library Documentation](./GeoFeatureLibrary/README.md).**
 
 ---
 
@@ -72,7 +111,7 @@ See the **[Library Documentation](./GeoFeatureLibrary/README.md)** for integrati
 
 ```
 GeoFeatureSDK/
-├── library/                      # 📚 The SDK Library
+├── GeoFeatureLibrary/            # 📚 The SDK Library
 │   ├── src/
 │   │   └── main/
 │   │       └── java/
@@ -300,32 +339,6 @@ Click ▶️ Run and grant location permission when prompted.
 **Method 3: Phone Language**
 - Change phone language
 - App uses Locale as fallback
-
----
-
-## 📦 Use the Library in Your Project
-
-### Option 1: Copy the Library Module
-
-1. Copy `library/` folder to your project
-2. Add to `settings.gradle`:
-```gradle
-include ':library'
-```
-3. Add dependency in `app/build.gradle`:
-```gradle
-dependencies {
-    implementation project(':library')
-}
-```
-
-### Option 2: Build AAR
-
-```bash
-cd library
-./gradlew assembleRelease
-# Output: library/build/outputs/aar/library-release.aar
-```
 
 ---
 
