@@ -64,7 +64,7 @@ cd GeoFeatureSDK
 
 ### Option 2: Use the Library in Your App
 
-See the **[Library Documentation](./library/README.md)** for integration guide.
+See the **[Library Documentation](./GeoFeatureLibrary/README.md)** for integration guide.
 
 ---
 
@@ -186,7 +186,7 @@ GeoFeatureSDK.clearUserCountry(this)      // Back to automatic
 
 ## 📚 Documentation
 
-- **[Library Documentation](./library/README.md)** - How to integrate the SDK
+- **[Library Documentation](./GeoFeatureLibrary/README.md)** - How to integrate the SDK
 - **[Demo App Documentation](./app/README.md)** - How to run the demo
 
 ---
@@ -387,7 +387,6 @@ See the [LICENSE](LICENSE) file for full details.
 ## 🔗 Related Repositories
 
 - **[GeoFeatureSDK-API](https://github.com/noaCohen6/GeoFeatureSDK-API)** - Spring Boot backend API
-- **[Admin Portal](https://github.com/noaCohen6/geofeature-admin)** - Web admin panel (optional)
 
 ---
 
