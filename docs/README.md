@@ -86,6 +86,7 @@ Each page has:
 
 MIT License - See LICENSE file in project root.
 
+
 ---
 
 **Built with ❤️ for the GeoFeature SDK project**
