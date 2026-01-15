@@ -3,7 +3,10 @@ package com.example.geofeaturesdk
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -154,6 +157,20 @@ class MainActivity : AppCompatActivity() {
         val itemCount = ShoppingCart.getItemCount()
         if (itemCount > 0) {
             cartItem.title = "Cart ($itemCount)"
+        }
+        for (i in 0 until menu.size()) {
+            val menuItem = menu.getItem(i)
+
+            if (menuItem.itemId != R.id.action_cart) {
+                val spannableTitle = SpannableString(menuItem.title)
+                spannableTitle.setSpan(
+                    ForegroundColorSpan(Color.BLACK),
+                    0,
+                    spannableTitle.length,
+                    0
+                )
+                menuItem.title = spannableTitle
+            }
         }
         return true
     }

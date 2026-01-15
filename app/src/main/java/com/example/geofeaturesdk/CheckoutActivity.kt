@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.geofeaturelibrary.GeoFeatureSDK
 import com.example.geofeaturesdk.adapters.CartAdapter
 import com.example.geofeaturesdk.models.ShoppingCart
 import com.example.geofeaturesdk.utils.CurrencyFormatter
@@ -22,7 +21,6 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var cartRecyclerView: RecyclerView
     private lateinit var paymentMethodsChipGroup: ChipGroup
     private lateinit var subtotalTextView: MaterialTextView
-    private lateinit var shippingTextView: MaterialTextView
     private lateinit var discountTextView: MaterialTextView
     private lateinit var totalTextView: MaterialTextView
     private lateinit var placeOrderButton: MaterialButton
@@ -31,7 +29,6 @@ class CheckoutActivity : AppCompatActivity() {
 
     private var currentCountry = "US"
     private var selectedPaymentMethod: String? = null
-    private var shippingCost = 0.0
     private var discountPercent = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +47,6 @@ class CheckoutActivity : AppCompatActivity() {
         cartRecyclerView = findViewById(R.id.cartRecyclerView)
         paymentMethodsChipGroup = findViewById(R.id.paymentMethodsChipGroup)
         subtotalTextView = findViewById(R.id.subtotalTextView)
-        shippingTextView = findViewById(R.id.shippingTextView)
         discountTextView = findViewById(R.id.discountTextView)
         totalTextView = findViewById(R.id.totalTextView)
         placeOrderButton = findViewById(R.id.placeOrderButton)
@@ -85,21 +81,18 @@ class CheckoutActivity : AppCompatActivity() {
 
 
     private fun loadDataFromAPI() {
-        // 🎯 Using GeoHelper to respect manual override!
         GeoHelper.getCurrentCountry(this) { country ->
             currentCountry = country
             runOnUiThread {
                 cartAdapter.updateCountry(country)
                 loadPaymentMethods()
                 checkDiscount()
-                calculateShipping()
             }
         }
     }
 
 
     private fun loadPaymentMethods() {
-        // 🎯 Using GeoHelper to respect manual override!
         GeoHelper.isFeatureEnabled(this, "payment_methods") { enabled, value ->
             runOnUiThread {
                 if (enabled && value != null) {
@@ -132,7 +125,6 @@ class CheckoutActivity : AppCompatActivity() {
 
 
     private fun checkDiscount() {
-        // 🎯 Using GeoHelper to respect manual override!
         GeoHelper.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
             runOnUiThread {
                 if (enabled && value != null) {
@@ -154,28 +146,12 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
 
-    private fun calculateShipping() {
-        shippingCost = if (currentCountry.equals("IL", ignoreCase = true)) {
-            0.0
-        } else {
-            9.99
-        }
-        updatePrices()
-    }
-
-
     private fun updatePrices() {
         val subtotal = ShoppingCart.getTotalPrice()
         val discount = subtotal * (discountPercent / 100.0)
-        val total = subtotal - discount + shippingCost
+        val total = subtotal - discount
 
         subtotalTextView.text = "Subtotal: ${CurrencyFormatter.formatPrice(subtotal, currentCountry)}"
-
-        if (shippingCost == 0.0) {
-            shippingTextView.text = "Shipping: FREE 🎁"
-        } else {
-            shippingTextView.text = "Shipping: ${CurrencyFormatter.formatPrice(shippingCost, currentCountry)}"
-        }
 
         if (discountPercent > 0) {
             discountTextView.text = "🎉 Black Friday ($discountPercent% OFF): -${CurrencyFormatter.formatPrice(discount, currentCountry)}"
@@ -213,7 +189,7 @@ class CheckoutActivity : AppCompatActivity() {
 
         val subtotal = ShoppingCart.getTotalPrice()
         val discount = subtotal * (discountPercent / 100.0)
-        val total = subtotal - discount + shippingCost
+        val total = subtotal - discount
         val formattedTotal = CurrencyFormatter.formatPrice(total, currentCountry)
 
         val discountText = if (discountPercent > 0) {
