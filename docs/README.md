@@ -1,6 +1,8 @@
 # 📖 GeoFeature SDK Documentation
 
 Complete documentation for the GeoFeature SDK project, deployed as GitHub Pages.
+[![Documentation](https://img.shields.io/badge/docs-live-brightgreen?style=for-the-badge&logo=github)](https://noacohen6.github.io/GeoFeatureSDK/)
+
 
 ## 📁 Files
 
