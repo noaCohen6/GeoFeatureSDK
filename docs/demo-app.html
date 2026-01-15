@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo App Guide - GeoFeature SDK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        .content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .country-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Documentation</a>
+            <h1>🛒 Demo App Guide</h1>
+            <p>Shopping App Showcasing GeoFeature SDK</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>🎯 Overview</h2>
+            <p>The GeoFeature Demo App is a fully functional shopping application that demonstrates real-world usage of the Android SDK. It showcases how features change automatically based on user location.</p>
+
+            <div class="info-box">
+                <strong>📦 Repository:</strong> <a href="https://github.com/noaCohen6/GeoFeatureSDK" target="_blank">GeoFeatureSDK</a><br>
+                <strong>📂 Location:</strong> <code>/app</code> module
+            </div>
+
+            <h2>💡 What It Shows</h2>
+
+            <div class="country-card">
+                <h3>🇮🇱 Israel</h3>
+                <ul>
+                    <li><strong>Currency:</strong> ₪ (Shekels) - converted from USD</li>
+                    <li><strong>Payment Methods:</strong> Credit Card, PayPal, <strong>Bit</strong></li>
+                    <li><strong>Black Friday Discount:</strong> <strong>20%</strong></li>
+                </ul>
+            </div>
+
+            <div class="country-card">
+                <h3>🇺🇸 United States</h3>
+                <ul>
+                    <li><strong>Currency:</strong> $ (Dollars) - base price</li>
+                    <li><strong>Payment Methods:</strong> Credit Card, PayPal, <strong>Apple Pay</strong></li>
+                    <li><strong>Black Friday Discount:</strong> <strong>30%</strong></li>
+                </ul>
+            </div>
+
+            <div class="country-card">
+                <h3>🇬🇧 United Kingdom</h3>
+                <ul>
+                    <li><strong>Currency:</strong> £ (Pounds) - converted from USD</li>
+                    <li><strong>Payment Methods:</strong> Credit Card, PayPal, Apple Pay</li>
+                    <li><strong>Black Friday Discount:</strong> <strong>15%</strong></li>
+                </ul>
+            </div>
+
+            <h2>📱 App Screens</h2>
+
+            <h3>🏪 Store (MainActivity)</h3>
+            <p>Main shopping screen with:</p>
+            <ul>
+                <li>Product grid with emoji icons</li>
+                <li>Prices in auto-detected currency</li>
+                <li>Location indicator (country flag + name)</li>
+                <li>Currency display</li>
+                <li>Feature status indicators</li>
+                <li>Add to cart functionality</li>
+            </ul>
+
+            <h3>🛒 Checkout (CheckoutActivity)</h3>
+            <p>Shopping cart and payment:</p>
+            <ul>
+                <li>Cart items with quantity controls</li>
+                <li>Country-specific payment method chips</li>
+                <li>Subtotal calculation</li>
+                <li>Regional discount application</li>
+                <li>Total price in local currency</li>
+            </ul>
+
+            <h3>⚙️ Settings (SettingsActivity)</h3>
+            <p>Manual country override for testing:</p>
+            <ul>
+                <li>Current country display</li>
+                <li>Manual override toggle</li>
+                <li>Country selector dropdown (IL, US, GB, FR, DE, JP)</li>
+                <li>Apply and Clear buttons</li>
+                <li>Instant effect on app features</li>
+            </ul>
+
+            <h3>📋 Features List (FeaturesListActivity)</h3>
+            <p>Debug screen showing:</p>
+            <ul>
+                <li>All features configured in backend</li>
+                <li>Status (enabled/disabled) for current country</li>
+                <li>Optional values</li>
+                <li>Feature descriptions</li>
+            </ul>
+
+            <h2>🚀 How to Run</h2>
+
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Android Studio (latest version)</li>
+                <li>Android device or emulator (API 24+)</li>
+                <li>Backend API running (deployed or local)</li>
+            </ul>
+
+            <h3>Step 1: Clone Repository</h3>
+            <pre>git clone https://github.com/noaCohen6/GeoFeatureSDK.git
+cd GeoFeatureSDK</pre>
+
+            <h3>Step 2: Configure API URL</h3>
+            <p>In <code>app/src/main/java/.../MainActivity.kt</code>:</p>
+            <pre>GeoFeatureSDK.initialize(
+    "https://thundering-elfie-geofeature-a5030253.koyeb.app/",
+    this
+)</pre>
+
+            <h3>Step 3: Open in Android Studio</h3>
+            <p>File → Open → Select GeoFeatureSDK folder</p>
+
+            <h3>Step 4: Run</h3>
+            <ol>
+                <li>Click ▶️ Run button</li>
+                <li>Select device/emulator</li>
+                <li>Grant location permission when prompted</li>
+                <li>Explore the app!</li>
+            </ol>
+
+            <h2>🎯 Testing Different Countries</h2>
+
+            <h3>Method 1: Settings Screen (Recommended)</h3>
+            <ol>
+                <li>Open app → Menu (⋮) → Settings</li>
+                <li>Toggle "Manual Country Override" ON</li>
+                <li>Select country (IL/US/GB/FR/DE/JP)</li>
+                <li>Click "Apply"</li>
+                <li>Return to store → see instant changes!</li>
+            </ol>
+
+            <h3>Method 2: Real GPS</h3>
+            <ol>
+                <li>Grant location permission</li>
+                <li>Go outside (GPS needs clear sky)</li>
+                <li>App detects your real location automatically</li>
+            </ol>
+
+            <h3>Method 3: Phone Language</h3>
+            <ol>
+                <li>Settings → System → Languages</li>
+                <li>Change language (Hebrew for IL, English for US)</li>
+                <li>App uses Locale as fallback if GPS unavailable</li>
+            </ol>
+
+            <h2>💻 Code Examples</h2>
+
+            <h3>Country Detection (MainActivity)</h3>
+            <pre>private fun loadGeoFeatures() {
+    GeoFeatureSDK.getCurrentCountry(this) { country ->
+        currentCountry = country
+        runOnUiThread {
+            updateLocationUI(country)
+            checkFeatures()
+        }
+    }
+}
+
+private fun updateLocationUI(country: String) {
+    val countryName = GeoFeatureSDK.getCountryName(country)
+    val currencyInfo = CurrencyFormatter.getCurrencyInfo(country)
+
+    locationTextView.text = "📍 $countryName"
+    currencyTextView.text = "💰 ${currencyInfo.name} (${currencyInfo.symbol})"
+
+    productAdapter.updateCountry(country)
+}</pre>
+
+            <h3>Payment Methods (CheckoutActivity)</h3>
+            <pre>private fun loadPaymentMethods() {
+    GeoFeatureSDK.isFeatureEnabled(this, "payment_methods") { enabled, value ->
+        runOnUiThread {
+            if (enabled && value != null) {
+                val methods = value.split(",").map { it.trim() }
+                
+                paymentMethodsChipGroup.removeAllViews()
+                
+                methods.forEachIndexed { index, methodId ->
+                    val chip = Chip(this)
+                    chip.text = formatPaymentMethod(methodId)
+                    chip.isCheckable = true
+                    chip.isChecked = index == 0
+                    
+                    paymentMethodsChipGroup.addView(chip)
+                }
+            }
+        }
+    }
+}</pre>
+
+            <h3>Discount Application (CheckoutActivity)</h3>
+            <pre>private fun checkDiscount() {
+    GeoFeatureSDK.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
+        runOnUiThread {
+            if (enabled && value != null) {
+                discountPercent = value.toIntOrNull() ?: 0
+                
+                if (discountPercent > 0) {
+                    discountTextView.visibility = View.VISIBLE
+                    discountTextView.text = 
+                        "🎉 Black Friday ($discountPercent% OFF): " +
+                        "-${CurrencyFormatter.formatPrice(discount, currentCountry)}"
+                }
+            }
+            updatePrices()
+        }
+    }
+}</pre>
+
+            <h3>Currency Conversion (CurrencyFormatter)</h3>
+            <pre>fun convertPrice(basePrice: Double, countryCode: String): Double {
+    return when (countryCode.uppercase()) {
+        "IL" -> basePrice * 3.7  // USD to ILS
+        "GB" -> basePrice * 0.82 // USD to GBP
+        "EU" -> basePrice * 0.95 // USD to EUR
+        "JP" -> basePrice * 150.0 // USD to JPY
+        else -> basePrice // USD
+    }
+}
+
+fun formatPrice(price: Double, countryCode: String): String {
+    val convertedPrice = convertPrice(price, countryCode)
+    
+    return when (countryCode.uppercase()) {
+        "IL" -> String.format("₪%.2f", convertedPrice)
+        "US" -> String.format("$%.2f", convertedPrice)
+        "GB" -> String.format("£%.2f", convertedPrice)
+        else -> String.format("$%.2f", convertedPrice)
+    }
+}</pre>
+
+            <h2>🏗️ Project Structure</h2>
+            <pre>app/
+├── MainActivity.kt              # Store screen
+├── CheckoutActivity.kt          # Cart & payment
+├── SettingsActivity.kt          # Manual override
+├── FeaturesListActivity.kt      # Debug screen
+├── models/
+│   ├── Product.kt               # Product data class
+│   ├── CartItem.kt              # Shopping cart
+│   └── FeatureStatus.kt         # Feature metadata
+├── adapters/
+│   ├── ProductAdapter.kt        # Product grid
+│   ├── CartAdapter.kt           # Cart items
+│   └── FeatureStatusAdapter.kt  # Features list
+└── utils/
+    └── CurrencyFormatter.kt     # Currency conversion</pre>
+
+            <h2>🔧 Key Features Demonstrated</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>SDK Method</th>
+                        <th>Demo Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Country Detection</td>
+                        <td><code>getCurrentCountry()</code></td>
+                        <td>Auto-detect user location</td>
+                    </tr>
+                    <tr>
+                        <td>Feature Query</td>
+                        <td><code>isFeatureEnabled()</code></td>
+                        <td>Check payment methods, discounts</td>
+                    </tr>
+                    <tr>
+                        <td>Country Names</td>
+                        <td><code>getCountryName()</code></td>
+                        <td>Display flag + name in UI</td>
+                    </tr>
+                    <tr>
+                        <td>Manual Override</td>
+                        <td><code>setUserCountry()</code></td>
+                        <td>Settings screen testing</td>
+                    </tr>
+                    <tr>
+                        <td>Permission Check</td>
+                        <td><code>hasLocationPermission()</code></td>
+                        <td>Request GPS access</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🎯 Real-World Scenarios</h2>
+
+            <h3>Scenario 1: Israeli User</h3>
+            <ol>
+                <li>App detects location via GPS → IL</li>
+                <li>Queries <code>currency_display</code> → Uses ILS (₪)</li>
+                <li>Queries <code>payment_methods</code> → Shows PayPal, Credit Card, Bit</li>
+                <li>Queries <code>black_friday_discount</code> → Applies 20% discount</li>
+                <li>User sees: ₪299.99 products with Bit payment and 20% off</li>
+            </ol>
+
+            <h3>Scenario 2: US User</h3>
+            <ol>
+                <li>App uses device locale (no GPS) → US</li>
+                <li>Queries <code>currency_display</code> → Uses USD ($)</li>
+                <li>Queries <code>payment_methods</code> → Shows PayPal, Credit Card, Apple Pay</li>
+                <li>Queries <code>black_friday_discount</code> → Applies 30% discount</li>
+                <li>User sees: $99.99 products with Apple Pay and 30% off</li>
+            </ol>
+
+            <h2>🐛 Troubleshooting</h2>
+
+            <h3>Common Issues</h3>
+
+            <p><strong>Problem:</strong> Location not detected</p>
+            <ul>
+                <li>Check location permission is granted</li>
+                <li>Enable GPS on device</li>
+                <li>Test outdoors for better GPS signal</li>
+                <li>App automatically falls back to Locale</li>
+            </ul>
+
+            <p><strong>Problem:</strong> Features showing as disabled</p>
+            <ul>
+                <li>Verify features exist in Admin Portal</li>
+                <li>Check API is running (wake from sleep)</li>
+                <li>Confirm feature names match exactly</li>
+                <li>Check country code (IL not ISR)</li>
+            </ul>
+
+            <p><strong>Problem:</strong> Network errors</p>
+            <ul>
+                <li>API may be sleeping (Koyeb scale-to-zero)</li>
+                <li>Open API URL in browser to wake (15 seconds)</li>
+                <li>Check internet connection</li>
+                <li>Verify API URL in MainActivity</li>
+            </ul>
+
+            <h2>📚 Learning Resources</h2>
+            <ul>
+                <li><a href="android-sdk.html">Android SDK Documentation</a></li>
+                <li><a href="api-guide.html">Backend API Guide</a></li>
+                <li><a href="admin-portal.html">Admin Portal Guide</a></li>
+                <li><a href="https://github.com/noaCohen6/GeoFeatureSDK" target="_blank">Source Code on GitHub</a></li>
+            </ul>
+
+            <h2>🎓 What You Can Learn</h2>
+            <ul>
+                <li><strong>Android Development:</strong> RecyclerView, Activities, Material Design</li>
+                <li><strong>Location Services:</strong> GPS detection, permission handling</li>
+                <li><strong>REST API Integration:</strong> Retrofit, callbacks, async operations</li>
+                <li><strong>Feature Toggles:</strong> A/B testing, regional rollouts</li>
+                <li><strong>Localization:</strong> Currency conversion, payment methods</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

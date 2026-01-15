@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal Guide - GeoFeature SDK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        .content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        .screenshot {
+            width: 100%;
+            max-width: 800px;
+            margin: 1.5rem auto;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 1px solid #ddd;
+        }
+
+        .workflow-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Documentation</a>
+            <h1>💻 Admin Portal Guide</h1>
+            <p>Web Interface for Managing Geographic Features</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>🎯 Overview</h2>
+            <p>The GeoFeature Admin Portal is a React-based web application that provides a visual interface for managing feature toggles by country. No code or database access required!</p>
+
+            <div class="info-box">
+                <strong>🌐 Live Portal:</strong> <a href="https://noacohen6.github.io/GeoFeatureSDK-API/" target="_blank">https://noacohen6.github.io/GeoFeatureSDK-API/</a><br>
+                <strong>📚 Repository:</strong> <a href="https://github.com/noaCohen6/GeoFeatureSDK-API" target="_blank">GitHub</a>
+            </div>
+
+            <h2>✨ Features</h2>
+            <ul>
+                <li><strong>📊 Dashboard:</strong> View statistics (total features, enabled/disabled counts, countries configured)</li>
+                <li><strong>🎯 Feature Management:</strong> Create, edit, and delete features with simple forms</li>
+                <li><strong>🌍 Geographic Rules:</strong> Set country-specific behavior (status + optional values)</li>
+                <li><strong>🎨 Modern UI:</strong> Clean, responsive design built with React and Tailwind CSS</li>
+                <li><strong>🚀 Real-time Updates:</strong> Changes take effect immediately</li>
+            </ul>
+
+            <h2>🖥️ User Interface</h2>
+
+            <h3>Dashboard</h3>
+            <p>The dashboard provides an overview of your feature configuration:</p>
+            <ul>
+                <li>Total number of features</li>
+                <li>How many are enabled/disabled by default</li>
+                <li>List of all configured countries</li>
+                <li>Quick navigation to feature management</li>
+            </ul>
+
+            <h3>Features List</h3>
+            <p>The features table shows:</p>
+            <ul>
+                <li>Feature name</li>
+                <li>Default status (enabled/disabled)</li>
+                <li>Number of geographic rules</li>
+                <li>Last updated timestamp</li>
+                <li>Quick actions (edit/delete)</li>
+            </ul>
+
+            <h3>Feature Form</h3>
+            <p>Create or edit features with:</p>
+            <ul>
+                <li>Feature name input (unique identifier)</li>
+                <li>Default status toggle</li>
+                <li>Geographic rules builder (country code, status, optional value)</li>
+                <li>Visual rule management with add/remove buttons</li>
+            </ul>
+
+            <h2>📝 Usage Guide</h2>
+
+            <h3>Creating a Feature</h3>
+            <ol>
+                <li>Click <strong>"Features"</strong> in the navigation</li>
+                <li>Click <strong>"Add Feature"</strong> button</li>
+                <li>Enter a <strong>feature name</strong> (e.g., <code>dark_mode</code>, <code>payment_methods</code>)</li>
+                <li>Set <strong>default status</strong>:
+                    <ul>
+                        <li><strong>Enabled:</strong> Feature on by default (can be disabled per country)</li>
+                        <li><strong>Disabled:</strong> Feature off by default (must be enabled per country)</li>
+                    </ul>
+                </li>
+                <li><em>Optional:</em> Add <strong>geographic rules</strong>:
+                    <ul>
+                        <li>Enter country code (IL, US, GB, etc.)</li>
+                        <li>Choose status (enabled/disabled)</li>
+                        <li>Enter optional value (e.g., "paypal,credit_card")</li>
+                        <li>Click "Add"</li>
+                    </ul>
+                </li>
+                <li>Click <strong>"Create Feature"</strong></li>
+            </ol>
+
+            <div class="success-box">
+                <strong>✅ Success!</strong> Your feature is now active and queryable via the API and Android SDK.
+            </div>
+
+            <h3>Editing a Feature</h3>
+            <ol>
+                <li>Click the ✏️ (edit) icon next to the feature</li>
+                <li>Modify default status or geographic rules</li>
+                <li>Click <strong>"Update Feature"</strong></li>
+            </ol>
+
+            <h3>Deleting a Feature</h3>
+            <ol>
+                <li>Click the 🗑️ (delete) icon next to the feature</li>
+                <li>Confirm deletion in the popup</li>
+            </ol>
+
+            <h2>📋 Example Workflows</h2>
+
+            <div class="workflow-card">
+                <h3>Workflow 1: Regional Payment Methods</h3>
+                <p><strong>Goal:</strong> Enable different payment methods per country</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Create feature: <code>payment_methods</code></li>
+                    <li>Default Status: <strong>Disabled</strong></li>
+                    <li>Add Geographic Rules:
+                        <ul>
+                            <li><strong>IL:</strong> Enabled, value=<code>paypal,credit_card,bit</code></li>
+                            <li><strong>US:</strong> Enabled, value=<code>paypal,apple_pay,google_pay,credit_card</code></li>
+                            <li><strong>DE:</strong> Enabled, value=<code>paypal,sepa,credit_card</code></li>
+                        </ul>
+                    </li>
+                    <li>Save</li>
+                </ol>
+                <p><strong>Result:</strong> Users in Israel, USA, and Germany see relevant payment options. Other countries see no payment methods (disabled by default).</p>
+            </div>
+
+            <div class="workflow-card">
+                <h3>Workflow 2: Beta Feature Testing</h3>
+                <p><strong>Goal:</strong> Test new UI with Israeli users first</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Create feature: <code>new_ui_beta</code></li>
+                    <li>Default Status: <strong>Disabled</strong></li>
+                    <li>Add Geographic Rule:
+                        <ul>
+                            <li><strong>IL:</strong> Enabled, value=<code>beta_v2</code></li>
+                        </ul>
+                    </li>
+                    <li>Save</li>
+                    <li>Monitor feedback from Israeli users</li>
+                    <li>Gradually add more countries:
+                        <ul>
+                            <li><strong>US:</strong> Enabled, value=<code>beta_v2</code></li>
+                            <li><strong>GB:</strong> Enabled, value=<code>beta_v2</code></li>
+                        </ul>
+                    </li>
+                </ol>
+                <p><strong>Result:</strong> Controlled rollout of beta features by region.</p>
+            </div>
+
+            <div class="workflow-card">
+                <h3>Workflow 3: Dark Mode Configuration</h3>
+                <p><strong>Goal:</strong> Enable dark mode everywhere except specific countries</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Create feature: <code>dark_mode</code></li>
+                    <li>Default Status: <strong>Enabled</strong></li>
+                    <li>Add Geographic Rules for exceptions:
+                        <ul>
+                            <li><strong>CN:</strong> Disabled</li>
+                            <li><strong>JP:</strong> Disabled, value=<code>light_preferred</code></li>
+                        </ul>
+                    </li>
+                    <li>Save</li>
+                </ol>
+                <p><strong>Result:</strong> Dark mode on by default, disabled in China and Japan.</p>
+            </div>
+
+            <h2>💡 Best Practices</h2>
+
+            <h3>Feature Naming</h3>
+            <ul>
+                <li><strong>✅ Good:</strong> <code>dark_mode</code>, <code>payment_methods</code>, <code>premium_features</code></li>
+                <li><strong>❌ Avoid:</strong> <code>Dark Mode</code>, <code>feature-123</code>, non-English characters</li>
+            </ul>
+
+            <h3>Default Status</h3>
+            <ul>
+                <li><strong>Use Enabled</strong> for general features available to most users globally (standard functionality, UI improvements)</li>
+                <li><strong>Use Disabled</strong> for region-specific features, experimental functionality, or features requiring custom configuration</li>
+            </ul>
+
+            <h3>Country Codes</h3>
+            <ul>
+                <li>Always use official 2-letter ISO codes: IL, US, GB, FR, DE</li>
+                <li>Keep values simple and documented (e.g., comma-separated lists)</li>
+                <li>Test with your Android SDK to verify functionality</li>
+            </ul>
+
+            <h2>🛠️ Local Development</h2>
+
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Node.js 16+ and npm</li>
+                <li>Backend API running (local or deployed)</li>
+            </ul>
+
+            <h3>Setup</h3>
+            <pre>cd admin-portal
+npm install
+npm run dev</pre>
+
+            <p>Portal opens at: <code>http://localhost:5173</code></p>
+
+            <h3>Configuration</h3>
+            <p>The <code>.env</code> file contains the API URL:</p>
+            <pre>VITE_API_URL=https://thundering-elfie-geofeature-a5030253.koyeb.app/api/v1</pre>
+
+            <div class="info-box">
+                <strong>💡 Note:</strong> The <code>.env</code> file is committed to Git because it only contains a public API URL (no secrets).
+            </div>
+
+            <h2>🚀 Deployment</h2>
+
+            <h3>GitHub Pages (Automatic)</h3>
+            <p>The portal is automatically deployed to GitHub Pages whenever you push to the <code>master</code> branch:</p>
+            <ol>
+                <li>Push changes to <code>master</code></li>
+                <li>GitHub Actions triggers automatically</li>
+                <li>Build process runs (<code>npm ci</code>, <code>npm run build</code>)</li>
+                <li>Deploy to GitHub Pages</li>
+                <li>Changes live in 2-3 minutes! 🎉</li>
+            </ol>
+
+            <h3>Manual Deployment</h3>
+            <p>Trigger deployment manually:</p>
+            <ol>
+                <li>Go to the <strong>Actions</strong> tab in GitHub repository</li>
+                <li>Select <strong>"Deploy Admin Portal to GitHub Pages"</strong></li>
+                <li>Click <strong>"Run workflow"</strong></li>
+                <li>Wait for completion (2-3 minutes)</li>
+            </ol>
+
+            <h2>🛡️ Tech Stack</h2>
+            <ul>
+                <li><strong>React 18:</strong> UI framework</li>
+                <li><strong>Vite 6:</strong> Build tool and dev server</li>
+                <li><strong>Tailwind CSS 3.4:</strong> Utility-first CSS framework</li>
+                <li><strong>Axios 1.7:</strong> HTTP client for API calls</li>
+                <li><strong>Lucide React:</strong> Icon library</li>
+            </ul>
+
+            <h2>🐛 Troubleshooting</h2>
+
+            <h3>Common Issues</h3>
+
+            <p><strong>Problem:</strong> Blank page</p>
+            <ul>
+                <li>Check browser console (F12 → Console)</li>
+                <li>Verify API is running and accessible</li>
+                <li>Check network tab for failed requests</li>
+            </ul>
+
+            <p><strong>Problem:</strong> Network error / API not responding</p>
+            <ul>
+                <li>API is sleeping (Koyeb scale-to-zero)</li>
+                <li>Open API URL in browser to wake it (15 seconds)</li>
+                <li>Refresh portal (Ctrl+Shift+R)</li>
+            </ul>
+
+            <p><strong>Problem:</strong> Changes not showing</p>
+            <ul>
+                <li>Hard refresh browser (Ctrl+Shift+R)</li>
+                <li>Clear browser cache</li>
+                <li>Wait for GitHub Actions to complete (if just deployed)</li>
+            </ul>
+
+            <p><strong>Problem:</strong> 404 errors when creating features</p>
+            <ul>
+                <li>Check API URL in <code>.env</code> file</li>
+                <li>Verify backend is running</li>
+                <li>Test API directly: <code>curl [API_URL]/api/v1/features</code></li>
+            </ul>
+
+            <h2>📚 Additional Resources</h2>
+            <ul>
+                <li><a href="https://noacohen6.github.io/GeoFeatureSDK-API/" target="_blank">Live Admin Portal</a></li>
+                <li><a href="api-guide.html">Backend API Documentation</a></li>
+                <li><a href="android-sdk.html">Android SDK Guide</a></li>
+                <li><a href="https://github.com/noaCohen6/GeoFeatureSDK-API" target="_blank">GitHub Repository</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
