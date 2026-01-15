@@ -3,6 +3,7 @@
 Complete documentation for the GeoFeature SDK project, deployed as GitHub Pages.
 ---
 **🌐 [View Full Documentation Site](https://noacohen6.github.io/GeoFeatureSDK/)**
+
 **🌐 [View Video of the GeoFeature SDK project]([https://noacohen6.github.io/GeoFeatureSDK](https://www.canva.com/design/DAG-fRHcHsI/lwmBTKrM458hb-6U7znJvg/view?utm_content=DAG-fRHcHsI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc044faae49)/)**
 ---
 
