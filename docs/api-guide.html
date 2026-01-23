@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend API Guide - GeoFeature SDK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        .content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .badge {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        ul {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Documentation</a>
+            <h1>⚙️ Backend API Guide</h1>
+            <p>Spring Boot REST API for Feature Management</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>🎯 Overview</h2>
+            <p>The GeoFeature Backend API is a Spring Boot 3.2 application that provides RESTful endpoints for managing geographic feature toggles. It uses MongoDB Atlas for data storage and is deployed on Koyeb.</p>
+
+            <div class="info-box">
+                <strong>🌐 Live API:</strong> <code>https://thundering-elfie-geofeature-a5030253.koyeb.app</code><br>
+                <strong>📚 Swagger UI:</strong> <a href="https://thundering-elfie-geofeature-a5030253.koyeb.app/swagger-ui.html" target="_blank">View API Documentation</a>
+            </div>
+
+            <h2>🏗️ Architecture</h2>
+            <p>The API follows a layered architecture:</p>
+            <ul>
+                <li><strong>Controller Layer:</strong> REST endpoints (<code>FeatureController</code>)</li>
+                <li><strong>Service Layer:</strong> Business logic (<code>FeatureService</code>, <code>FeatureServiceImpl</code>)</li>
+                <li><strong>Repository Layer:</strong> Data access (<code>FeatureRepository</code>)</li>
+                <li><strong>Model Layer:</strong> Domain entities (<code>Feature</code>, <code>GeoRule</code>)</li>
+                <li><strong>Boundary Layer:</strong> API DTOs (<code>FeatureBoundary</code>, <code>FeatureQueryRequest</code>)</li>
+            </ul>
+
+            <h2>📌 API Endpoints</h2>
+            <p><strong>Base URL:</strong> <code>/api/v1</code></p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Auth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge">GET</span></td>
+                        <td><code>/features</code></td>
+                        <td>Get all features</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">POST</span></td>
+                        <td><code>/features</code></td>
+                        <td>Create new feature</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">GET</span></td>
+                        <td><code>/features/{id}</code></td>
+                        <td>Get feature by ID</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">GET</span></td>
+                        <td><code>/features/by-name/{name}</code></td>
+                        <td>Get feature by name</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">POST</span></td>
+                        <td><code>/features/query</code></td>
+                        <td>Query feature by country</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">PUT</span></td>
+                        <td><code>/features/{id}</code></td>
+                        <td>Update feature</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">DELETE</span></td>
+                        <td><code>/features/{id}</code></td>
+                        <td>Delete feature</td>
+                        <td>None</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>⚠️ Note:</strong> Current implementation has no authentication. For production use, implement proper authentication and authorization mechanisms.
+            </div>
+
+            <h2>📝 Request/Response Examples</h2>
+
+            <h3>Create Feature</h3>
+            <p><strong>POST</strong> <code>/api/v1/features</code></p>
+            <pre>{
+  "featureName": "payment_methods",
+  "defaultStatus": false,
+  "geoRules": [
+    {
+      "countryCode": "IL",
+      "status": "enabled",
+      "value": "paypal,credit_card,bit"
+    },
+    {
+      "countryCode": "US",
+      "status": "enabled",
+      "value": "paypal,credit_card,apple_pay"
+    }
+  ]
+}</pre>
+
+            <p><strong>Response (201 Created):</strong></p>
+            <pre>{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "featureName": "payment_methods",
+  "defaultStatus": false,
+  "geoRules": [
+    {
+      "countryCode": "IL",
+      "status": "enabled",
+      "value": "paypal,credit_card,bit"
+    },
+    {
+      "countryCode": "US",
+      "status": "enabled",
+      "value": "paypal,credit_card,apple_pay"
+    }
+  ],
+  "createdAt": "2026-01-15T10:30:00",
+  "updatedAt": "2026-01-15T10:30:00"
+}</pre>
+
+            <h3>Query Feature</h3>
+            <p><strong>POST</strong> <code>/api/v1/features/query</code></p>
+            <pre>{
+  "featureName": "payment_methods",
+  "countryCode": "IL"
+}</pre>
+
+            <p><strong>Response (200 OK):</strong></p>
+            <pre>{
+  "enabled": true,
+  "value": "paypal,credit_card,bit"
+}</pre>
+
+            <h3>Get All Features</h3>
+            <p><strong>GET</strong> <code>/api/v1/features</code></p>
+            <p><strong>Response (200 OK):</strong></p>
+            <pre>[
+  {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "featureName": "payment_methods",
+    "defaultStatus": false,
+    "geoRules": [...],
+    "createdAt": "2026-01-15T10:30:00",
+    "updatedAt": "2026-01-15T10:30:00"
+  },
+  {
+    "id": "987f6543-e21b-45d3-b654-789123456789",
+    "featureName": "dark_mode",
+    "defaultStatus": true,
+    "geoRules": [...],
+    "createdAt": "2026-01-15T11:00:00",
+    "updatedAt": "2026-01-15T11:00:00"
+  }
+]</pre>
+
+            <h2>🗄️ Data Model</h2>
+
+            <h3>Feature Schema</h3>
+            <pre>{
+  "id": "string (UUID)",
+  "featureName": "string (unique)",
+  "defaultStatus": "boolean",
+  "geoRules": [
+    {
+      "countryCode": "string (2-letter ISO)",
+      "status": "string (enabled/disabled)",
+      "value": "string (optional)"
+    }
+  ],
+  "createdAt": "ISO 8601 datetime",
+  "updatedAt": "ISO 8601 datetime"
+}</pre>
+
+            <h3>Field Descriptions</h3>
+            <ul>
+                <li><strong>id:</strong> Auto-generated UUID</li>
+                <li><strong>featureName:</strong> Unique identifier (e.g., "dark_mode", "payment_methods")</li>
+                <li><strong>defaultStatus:</strong> Default on/off for countries without specific rules</li>
+                <li><strong>geoRules:</strong> Array of country-specific configurations</li>
+                <li><strong>countryCode:</strong> 2-letter ISO country code (IL, US, GB, etc.)</li>
+                <li><strong>status:</strong> "enabled" or "disabled" for that country</li>
+                <li><strong>value:</strong> Optional custom value (e.g., comma-separated payment methods)</li>
+            </ul>
+
+            <h2>⚙️ Setup Instructions</h2>
+
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Java 21 or higher</li>
+                <li>MongoDB Atlas account</li>
+                <li>Gradle 8.14 or higher</li>
+            </ul>
+
+            <h3>Local Development</h3>
+            <p><strong>1. Clone the repository:</strong></p>
+            <pre>git clone https://github.com/noaCohen6/GeoFeatureSDK-API.git
+cd GeoFeatureSDK-API</pre>
+
+            <p><strong>2. Configure MongoDB:</strong></p>
+            <p>Edit <code>src/main/resources/application.properties</code>:</p>
+            <pre>spring.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/geofeature_db
+server.port=8080</pre>
+
+            <p><strong>3. Run the application:</strong></p>
+            <pre>./gradlew bootRun</pre>
+
+            <p><strong>4. Test the API:</strong></p>
+            <pre>curl http://localhost:8080/api/v1/features</pre>
+
+            <div class="success-box">
+                <strong>✅ Success!</strong> API is running at <code>http://localhost:8080</code><br>
+                Access Swagger UI at: <code>http://localhost:8080/swagger-ui.html</code>
+            </div>
+
+            <h3>Docker Deployment</h3>
+            <pre>docker build -t geofeature-api .
+docker run -p 8080:8080 \
+  -e MONGODB_URI="mongodb+srv://..." \
+  geofeature-api</pre>
+
+            <h3>Koyeb Deployment</h3>
+            <p>The API is deployed on Koyeb with automatic deployments from the <code>master</code> branch:</p>
+            <ul>
+                <li>✅ Scale-to-zero (free tier friendly)</li>
+                <li>✅ HTTPS enabled automatically</li>
+                <li>✅ Environment variables configured in Koyeb dashboard</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Tip:</strong> The API may sleep after 5-10 minutes of inactivity. Open the URL in a browser to wake it up (15-second cold start).
+            </div>
+
+            <h2>🔧 Configuration</h2>
+
+            <h3>Environment Variables</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Description</th>
+                        <th>Default</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>MONGODB_URI</code></td>
+                        <td>MongoDB connection string</td>
+                        <td>localhost</td>
+                    </tr>
+                    <tr>
+                        <td><code>PORT</code></td>
+                        <td>Server port</td>
+                        <td>8080</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>CORS Configuration</h3>
+            <p>CORS is configured to allow all origins for development. For production:</p>
+            <pre>// CorsConfig.java
+config.setAllowedOrigins(Arrays.asList(
+    "https://your-domain.com",
+    "https://your-admin-portal.com"
+));</pre>
+
+            <h2>🛡️ Security Notes</h2>
+            <div class="warning-box">
+                <strong>⚠️ Current Implementation:</strong>
+                <ul>
+                    <li>No authentication/authorization</li>
+                    <li>CORS enabled for all origins</li>
+                    <li>All endpoints are public</li>
+                </ul>
+                <strong>For Production:</strong>
+                <ul>
+                    <li>Implement JWT or OAuth2 authentication</li>
+                    <li>Restrict CORS to specific domains</li>
+                    <li>Add rate limiting</li>
+                    <li>Implement API key validation</li>
+                    <li>Enable HTTPS only</li>
+                </ul>
+            </div>
+
+            <h2>📚 Additional Resources</h2>
+            <ul>
+                <li><a href="https://thundering-elfie-geofeature-a5030253.koyeb.app/swagger-ui.html" target="_blank">Interactive API Documentation (Swagger)</a></li>
+                <li><a href="https://github.com/noaCohen6/GeoFeatureSDK-API" target="_blank">GitHub Repository</a></li>
+                <li><a href="https://spring.io/projects/spring-boot" target="_blank">Spring Boot Documentation</a></li>
+                <li><a href="https://www.mongodb.com/docs/atlas/" target="_blank">MongoDB Atlas Documentation</a></li>
+            </ul>
+
+            <h2>🐛 Troubleshooting</h2>
+
+            <h3>Common Issues</h3>
+            
+            <p><strong>Problem:</strong> MongoDB connection failed</p>
+            <ul>
+                <li>Check MongoDB URI format</li>
+                <li>Verify network access (IP whitelist: 0.0.0.0/0 for testing)</li>
+                <li>Confirm credentials are correct</li>
+            </ul>
+
+            <p><strong>Problem:</strong> API not responding (Koyeb)</p>
+            <ul>
+                <li>API is sleeping (scale-to-zero). Open URL in browser to wake (15 seconds)</li>
+                <li>Check Koyeb logs for errors</li>
+            </ul>
+
+            <p><strong>Problem:</strong> CORS errors</p>
+            <ul>
+                <li>Verify CorsConfig.java allows your domain</li>
+                <li>Check browser console for specific CORS error</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

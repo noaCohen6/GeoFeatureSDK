@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android SDK Guide - GeoFeature SDK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        .content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        ul {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        .badge {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 0 0.25rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Documentation</a>
+            <h1>📱 Android SDK Guide</h1>
+            <p>Integrate Location-Based Features in Your Android App</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h2>🎯 Overview</h2>
+            <p>The GeoFeature Android SDK enables automatic country detection and feature management based on user location. It supports GPS, manual override, and device locale fallback.</p>
+
+            <div class="info-box">
+                <strong>📦 JitPack:</strong> <code>com.github.noaCohen6:GeoFeatureSDK:1.0.0</code><br>
+                <strong>📚 Repository:</strong> <a href="https://github.com/noaCohen6/GeoFeatureSDK" target="_blank">GitHub</a>
+            </div>
+
+            <h2>⚙️ Installation</h2>
+
+            <h3>Step 1: Add JitPack Repository</h3>
+            <p>In your <strong>settings.gradle.kts</strong> (Project level):</p>
+            <pre>dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }  // Add this
+    }
+}</pre>
+
+            <h3>Step 2: Add Dependency</h3>
+            <p>In your <strong>app/build.gradle.kts</strong> (Module level):</p>
+            <pre>dependencies {
+    implementation("com.github.noaCohen6:GeoFeatureSDK:1.0.0")
+}</pre>
+
+            <h3>Step 3: Sync Gradle</h3>
+            <p>Click <strong>"Sync Now"</strong> in Android Studio</p>
+
+            <div class="success-box">
+                <strong>✅ Done!</strong> The SDK is now ready to use in your project.
+            </div>
+
+            <h2>🔐 Required Permissions</h2>
+            <p>Add to your <strong>AndroidManifest.xml</strong>:</p>
+            <pre>&lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /&gt;
+&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</pre>
+
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> The SDK does NOT request permissions automatically. Your app must request location permissions at runtime.
+            </div>
+
+            <h2>🚀 Quick Start</h2>
+
+            <h3>1. Initialize SDK</h3>
+            <p>In your <strong>MainActivity.kt</strong> or <strong>Application</strong> class:</p>
+            <pre>import com.example.geofeaturelibrary.GeoFeatureSDK
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Initialize SDK with your API URL
+        GeoFeatureSDK.initialize(
+            "https://thundering-elfie-geofeature-a5030253.koyeb.app/",
+            this
+        )
+
+        // Request location permission
+        requestLocationPermissionIfNeeded()
+
+        // Start using the SDK
+        loadFeatures()
+    }
+}</pre>
+
+            <h3>2. Request Location Permission</h3>
+            <pre>companion object {
+    private const val LOCATION_PERMISSION_REQUEST_CODE = 100
+}
+
+private fun requestLocationPermissionIfNeeded() {
+    if (!GeoFeatureSDK.hasLocationPermission(this)) {
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            LOCATION_PERMISSION_REQUEST_CODE
+        )
+    }
+}
+
+override fun onRequestPermissionsResult(
+    requestCode: Int,
+    permissions: Array&lt;out String&gt;,
+    grantResults: IntArray
+) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    
+    if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "GPS enabled!", Toast.LENGTH_SHORT).show()
+            loadFeatures()
+        } else {
+            Toast.makeText(this, "Using device locale", Toast.LENGTH_SHORT).show()
+        }
+    }
+}</pre>
+
+            <h3>3. Use the SDK</h3>
+            <pre>private fun loadFeatures() {
+    // Get current country
+    GeoFeatureSDK.getCurrentCountry(this) { country ->
+        Log.d("App", "User in: $country")  // "IL", "US", "GB"...
+        updateUI(country)
+    }
+
+    // Check if feature is enabled
+    GeoFeatureSDK.isFeatureEnabled(this, "dark_mode") { enabled, value ->
+        if (enabled) {
+            activateDarkMode(value)
+        }
+    }
+
+    // Get payment methods for current country
+    GeoFeatureSDK.isFeatureEnabled(this, "payment_methods") { enabled, value ->
+        if (enabled && value != null) {
+            val methods = value.split(",")
+            showPaymentOptions(methods)
+        }
+    }
+}</pre>
+
+            <h2>📚 Core API Methods</h2>
+
+            <h3>🌍 Country Detection</h3>
+
+            <p><strong>getCurrentCountry()</strong></p>
+            <pre>GeoFeatureSDK.getCurrentCountry(context) { countryCode ->
+    // countryCode: "IL", "US", "GB", etc.
+    Log.d("App", "User in: $countryCode")
+}</pre>
+
+            <p><strong>getCountryName()</strong></p>
+            <pre>val name = GeoFeatureSDK.getCountryName("IL")
+// Returns: "Israel 🇮🇱"</pre>
+
+            <p><strong>isInCountry()</strong></p>
+            <pre>GeoFeatureSDK.isInCountry(context, "IL") { isInIsrael ->
+    if (isInIsrael) {
+        // User is in Israel
+    }
+}</pre>
+
+            <h3>🎯 Feature Queries</h3>
+
+            <p><strong>isFeatureEnabled()</strong></p>
+            <pre>GeoFeatureSDK.isFeatureEnabled(context, "dark_mode") { enabled, value ->
+    if (enabled) {
+        // Feature is enabled
+        // value = optional custom value (e.g., "auto", "light", "dark")
+    }
+}</pre>
+
+            <p><strong>isFeatureEnabledForCountry()</strong></p>
+            <pre>GeoFeatureSDK.isFeatureEnabledForCountry("payment_methods", "US") { enabled, value ->
+    // Check specific country without GPS detection
+}</pre>
+
+            <p><strong>getFeatureByName()</strong></p>
+            <pre>GeoFeatureSDK.getFeatureByName("dark_mode") { feature ->
+    if (feature != null) {
+        Log.d("App", "Feature: ${feature.featureName}")
+        Log.d("App", "Default: ${feature.defaultStatus}")
+        Log.d("App", "Rules: ${feature.geoRules.size}")
+    }
+}</pre>
+
+            <h3>🛠️ Manual Override (Testing)</h3>
+
+            <p><strong>setUserCountry()</strong></p>
+            <pre>// For testing/demo purposes
+GeoFeatureSDK.setUserCountry(context, "US")
+// Forces country to USA</pre>
+
+            <p><strong>clearUserCountry()</strong></p>
+            <pre>// Remove manual override
+GeoFeatureSDK.clearUserCountry(context)
+// Returns to GPS → Locale detection</pre>
+
+            <p><strong>getUserCountry()</strong></p>
+            <pre>val manualCountry = GeoFeatureSDK.getUserCountry(context)
+// Returns: "US" or null</pre>
+
+            <h2>🔄 How Country Detection Works</h2>
+
+            <div class="info-box">
+                <strong>Priority Order:</strong>
+                <ol>
+                    <li><strong>GPS</strong> (if permission granted) - Most accurate</li>
+                    <li><strong>Manual Override</strong> (if set) - For testing</li>
+                    <li><strong>Device Locale</strong> (fallback) - Phone language/region</li>
+                </ol>
+            </div>
+
+            <pre>// Example flow:
+1. User grants GPS → SDK uses GPS coordinates → Geocodes to "IL"
+2. GPS fails → SDK checks manual override → Returns "US" if set
+3. No override → SDK uses device locale → Returns "IL" (Hebrew phone)</pre>
+
+            <h2>💡 Usage Examples</h2>
+
+            <h3>Example 1: Payment Methods by Country</h3>
+            <pre>GeoFeatureSDK.isFeatureEnabled(this, "payment_methods") { enabled, value ->
+    runOnUiThread {
+        if (enabled && value != null) {
+            val methods = value.split(",")
+            // IL → ["paypal", "credit_card", "bit"]
+            // US → ["paypal", "credit_card", "apple_pay"]
+            
+            showPaymentOptions(methods)
+        } else {
+            showDefaultPaymentOptions()
+        }
+    }
+}</pre>
+
+            <h3>Example 2: Regional Discounts</h3>
+            <pre>GeoFeatureSDK.isFeatureEnabled(this, "black_friday_discount") { enabled, value ->
+    if (enabled && value != null) {
+        val discountPercent = value.toIntOrNull() ?: 0
+        // US → 50%, IL → 20%, GB → 15%
+        
+        applyDiscount(discountPercent)
+        Toast.makeText(
+            this,
+            "🎉 $discountPercent% OFF!",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+}</pre>
+
+            <h3>Example 3: Currency Display</h3>
+            <pre>GeoFeatureSDK.getCurrentCountry(this) { country ->
+    val currency = when (country) {
+        "IL" -> "₪"
+        "US" -> "$"
+        "GB" -> "£"
+        "EU" -> "€"
+        else -> "$"
+    }
+    
+    priceTextView.text = "$currency ${product.price}"
+}</pre>
+
+            <h2>📊 Demo App Implementation</h2>
+
+            <p>The demo shopping app showcases real-world usage:</p>
+
+            <h3>Features Implemented:</h3>
+            <ul>
+                <li><strong>🏪 Store:</strong> Products with auto-detected currency</li>
+                <li><strong>💳 Checkout:</strong> Country-specific payment methods</li>
+                <li><strong>🎉 Discounts:</strong> Regional Black Friday sales</li>
+                <li><strong>⚙️ Settings:</strong> Manual country override for testing</li>
+                <li><strong>📋 Debug:</strong> Feature status viewer</li>
+            </ul>
+
+            <p>See the full implementation in the <a href="demo-app.html">Demo App Guide</a>.</p>
+
+            <h2>🏗️ SDK Architecture</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>GeoFeatureSDK</code></td>
+                        <td>Main public API (use this only)</td>
+                    </tr>
+                    <tr>
+                        <td><code>GeoLocationManager</code></td>
+                        <td>GPS & geocoding (internal)</td>
+                    </tr>
+                    <tr>
+                        <td><code>GeoFeatureController</code></td>
+                        <td>HTTP client for API calls (internal)</td>
+                    </tr>
+                    <tr>
+                        <td><code>GeoFeatureAPI</code></td>
+                        <td>Retrofit interface (internal)</td>
+                    </tr>
+                    <tr>
+                        <td><code>GeoFeatureModels</code></td>
+                        <td>Data classes</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>⚠️ Only use GeoFeatureSDK</strong> - All other classes are internal and may change without notice.
+            </div>
+
+            <h2>📦 Dependencies</h2>
+            <p>The SDK includes these dependencies (automatically added):</p>
+            <pre>dependencies {
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+}</pre>
+
+            <h2>🔧 Advanced Configuration</h2>
+
+            <h3>Custom API URL</h3>
+            <pre>// Use your own backend
+GeoFeatureSDK.initialize("https://your-api.example.com/", context)</pre>
+
+            <h3>Multiple Feature Checks</h3>
+            <pre>val features = listOf("dark_mode", "payment_methods", "premium_features")
+
+features.forEach { featureName ->
+    GeoFeatureSDK.isFeatureEnabled(this, featureName) { enabled, value ->
+        Log.d("App", "$featureName: $enabled (value: $value)")
+    }
+}</pre>
+
+            <h2>🐛 Troubleshooting</h2>
+
+            <h3>Common Issues</h3>
+
+            <p><strong>Problem:</strong> GPS not detecting location</p>
+            <ul>
+                <li>Check if location permission is granted</li>
+                <li>Verify GPS is enabled on device</li>
+                <li>Test outdoors (GPS needs clear sky view)</li>
+                <li>SDK will automatically fall back to Locale</li>
+            </ul>
+
+            <p><strong>Problem:</strong> Network errors / API not responding</p>
+            <ul>
+                <li>API may be sleeping (Koyeb scale-to-zero)</li>
+                <li>Open API URL in browser to wake it (15 seconds)</li>
+                <li>Check internet connection</li>
+                <li>Verify API URL is correct</li>
+            </ul>
+
+            <p><strong>Problem:</strong> Features always returning false</p>
+            <ul>
+                <li>Check if features exist in backend (use Admin Portal)</li>
+                <li>Verify country code format (2-letter: IL, US, GB)</li>
+                <li>Check feature name spelling</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Debug Tip:</strong> Use <code>Log.d()</code> to print country detection results:
+                <pre>GeoFeatureSDK.getCurrentCountry(this) { country ->
+    Log.d("DEBUG", "Detected country: $country")
+}</pre>
+            </div>
+
+            <h2>📚 Additional Resources</h2>
+            <ul>
+                <li><a href="https://jitpack.io/#noaCohen6/GeoFeatureSDK" target="_blank">JitPack Repository</a></li>
+                <li><a href="https://github.com/noaCohen6/GeoFeatureSDK" target="_blank">GitHub Repository</a></li>
+                <li><a href="demo-app.html">Demo App Guide</a></li>
+                <li><a href="api-guide.html">Backend API Documentation</a></li>
+            </ul>
+
+            <h2>📄 License</h2>
+            <p>This SDK is licensed under the MIT License. See the <a href="https://github.com/noaCohen6/GeoFeatureSDK/blob/master/LICENSE" target="_blank">LICENSE</a> file for details.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoFeature SDK - Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 3rem 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 2rem 0;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .nav-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .nav-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-card p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .section {
+            margin: 3rem 0;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .architecture-img {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-item h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .links-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .links-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .links-list {
+            list-style: none;
+        }
+
+        .links-list li {
+            margin: 0.5rem 0;
+        }
+
+        .links-list a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .links-list a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 GeoFeature SDK</h1>
+            <p class="subtitle">Complete Geographic Feature Toggle System</p>
+        </header>
+
+        <div class="main-content">
+            <section class="section">
+                <h2>📖 Quick Navigation</h2>
+                <div class="nav-grid">
+                    <a href="api-guide.html" class="nav-card">
+                        <div class="icon">⚙️</div>
+                        <h3>Backend API</h3>
+                        <p>Spring Boot REST API for feature management</p>
+                    </a>
+                    
+                    <a href="android-sdk.html" class="nav-card">
+                        <div class="icon">📱</div>
+                        <h3>Android SDK</h3>
+                        <p>Integrate location-based features in your app</p>
+                    </a>
+                    
+                    <a href="admin-portal.html" class="nav-card">
+                        <div class="icon">💻</div>
+                        <h3>Admin Portal</h3>
+                        <p>React web interface for feature management</p>
+                    </a>
+                    
+                    <a href="demo-app.html" class="nav-card">
+                        <div class="icon">🛒</div>
+                        <h3>Demo App</h3>
+                        <p>Example Android shopping application</p>
+                    </a>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>🎯 What is GeoFeature SDK?</h2>
+                <p>GeoFeature SDK is a complete solution for managing application features based on user location. It enables you to:</p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h3>🌍 Country Detection</h3>
+                        <p>Automatic detection via GPS, manual override, or device locale</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>🎯 Feature Toggles</h3>
+                        <p>Enable/disable features per country with custom values</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>📊 Visual Management</h3>
+                        <p>Web-based admin portal for easy configuration</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>🚀 Easy Integration</h3>
+                        <p>Simple Android SDK with JitPack distribution</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>🏗️ System Architecture</h2>
+                <img src="https://raw.githubusercontent.com/noaCohen6/GeoFeatureSDK-API/master/docs/architecture-diagram.png" alt="System Architecture" class="architecture-img" onerror="this.style.display='none'">
+                <p style="text-align: center; margin-top: 1rem;">
+                    <strong>Flow:</strong> Admin Portal → Backend API → MongoDB → Android SDK → Mobile Apps
+                </p>
+            </section>
+
+            <section class="section">
+                <h2>🚀 Quick Start</h2>
+                <h3>1. Deploy Backend API</h3>
+                <p>The API is already deployed at: <code>https://thundering-elfie-geofeature-a5030253.koyeb.app</code></p>
+                
+                <h3 style="margin-top: 2rem;">2. Use Admin Portal</h3>
+                <p>Manage features at: <a href="https://noacohen6.github.io/GeoFeatureSDK-API/" target="_blank">https://noacohen6.github.io/GeoFeatureSDK-API/</a></p>
+                
+                <h3 style="margin-top: 2rem;">3. Integrate Android SDK</h3>
+                <p>Add to your <code>build.gradle.kts</code>:</p>
+                <pre style="background: #f4f4f4; padding: 1rem; border-radius: 5px; overflow-x: auto;">
+dependencies {
+    implementation("com.github.noaCohen6:GeoFeatureSDK:1.0.0")
+}</pre>
+            </section>
+
+            <div class="links-section">
+                <h3>🔗 Important Links</h3>
+                <ul class="links-list">
+                    <li>🌐 <a href="https://noacohen6.github.io/GeoFeatureSDK-API/" target="_blank">Live Admin Portal</a></li>
+                    <li>🔌 <a href="https://thundering-elfie-geofeature-a5030253.koyeb.app/swagger-ui.html" target="_blank">API Documentation (Swagger)</a></li>
+                    <li>📦 <a href="https://jitpack.io/#noaCohen6/GeoFeatureSDK" target="_blank">JitPack Repository</a></li>
+                    <li>💾 <a href="https://github.com/noaCohen6/GeoFeatureSDK-API" target="_blank">Backend GitHub Repository</a></li>
+                    <li>📱 <a href="https://github.com/noaCohen6/GeoFeatureSDK" target="_blank">Android SDK GitHub Repository</a></li>
+                </ul>
+            </div>
+
+            <section class="section">
+                <h2>💡 Use Cases</h2>
+                <ul style="margin-left: 2rem;">
+                    <li><strong>E-commerce:</strong> Different payment methods, currencies, and shipping options per region</li>
+                    <li><strong>Content Apps:</strong> Regional content restrictions and localization</li>
+                    <li><strong>Gaming:</strong> Region-specific events, pricing, and features</li>
+                    <li><strong>FinTech:</strong> Compliance with regional regulations and payment options</li>
+                    <li><strong>Food Delivery:</strong> Menu availability and pricing by location</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>🛠️ Technology Stack</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h3>Backend</h3>
+                        <p>Spring Boot 3.2, Java 21, MongoDB Atlas</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Frontend</h3>
+                        <p>React 18, Vite 6, Tailwind CSS 3.4</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Android SDK</h3>
+                        <p>Kotlin, Retrofit 2, Gson, Location Services</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>Deployment</h3>
+                        <p>Koyeb (API), GitHub Pages (Portal)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>📄 License</h2>
+                <p>This project is licensed under the <strong>MIT License</strong>. See the LICENSE file for details.</p>
+            </section>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ by Noa Cohen</p>
+            <p>GeoFeature SDK © 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
