@@ -1,17 +1,13 @@
 package com.example.geofeaturesdk.models
 
-/**
- * סטטוס של Feature
- */
+
 data class FeatureStatus(
     val name: String,
     val enabled: Boolean,
     val value: String?,
     val countryCode: String
 ) {
-    /**
-     * קבלת אייקון לפי שם הפיצ'ר
-     */
+
     fun getIcon(): String {
         return when (name.lowercase()) {
             "dark_mode" -> "🌙"
@@ -26,9 +22,7 @@ data class FeatureStatus(
         }
     }
 
-    /**
-     * קבלת תיאור לפיצ'ר
-     */
+
     fun getDescription(): String {
         return when (name.lowercase()) {
             "dark_mode" -> "Dark theme for the app"

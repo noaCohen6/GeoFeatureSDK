@@ -1,17 +1,19 @@
 package com.example.geofeaturesdk
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.geofeaturelibrary.GeoFeatureSDK
 import com.example.geofeaturesdk.adapters.FeatureStatusAdapter
 import com.example.geofeaturesdk.models.FeatureStatus
 import com.example.geofeaturesdk.utils.GeoHelper
 import com.google.android.material.textview.MaterialTextView
 
 /**
- * Debug screen showing all features and their status for the current country.
- * Uses GeoHelper to respect manual country override from Settings.
+ * Debug screen displaying all features and their status for the current country.
+ * Features are loaded dynamically from the server, no hard-coded list required.
  */
 class FeaturesListActivity : AppCompatActivity() {
 
@@ -43,43 +45,47 @@ class FeaturesListActivity : AppCompatActivity() {
         featuresRecyclerView.adapter = featureAdapter
     }
 
-
-     //Detect current country and load features.
-     //GeoHelper checks manual override first, then falls back to SDK (GPS/Locale).
+    /**
+     * Detect user's current country (Manual Override → GPS → Locale) and load features from server.
+     */
     private fun loadFeatures() {
-        // Get current country (respects manual override if set in Settings)
         GeoHelper.getCurrentCountry(this) { country ->
             currentCountry = country
             runOnUiThread {
-                countryTextView.text = "Checking features for: $country"
-                checkAllFeatures()
+                countryTextView.text = "📍 Checking features for: $country"
+                loadAllFeaturesFromServer()
             }
         }
     }
 
     /**
-     * Check all features for the current country.
-     * Queries each feature from the server and displays the results.
+     * Fetch all features dynamically from the server (no hard-coded list).
      */
-    private fun checkAllFeatures() {
-        val featuresToCheck = listOf(
-            "payment_methods",
-            "currency_display",
-            "black_friday_discount"
-        )
+    private fun loadAllFeaturesFromServer() {
+        GeoFeatureSDK.getAllFeatures { features ->
+            runOnUiThread {
+                if (features.isEmpty()) {
+                    Toast.makeText(this, "No features found", Toast.LENGTH_SHORT).show()
+                    return@runOnUiThread
+                }
+                checkFeaturesForCountry(features)
+            }
+        }
+    }
 
+    /**
+     * Check each feature's enabled status for the current country and update RecyclerView.
+     */
+    private fun checkFeaturesForCountry(features: List<com.example.geofeaturelibrary.GeoFeature>) {
         val featureStatuses = mutableListOf<FeatureStatus>()
         var checkedCount = 0
 
-        featuresToCheck.forEach { featureName ->
-            // Check if feature is enabled for current country
-            // Flow: GeoHelper → SDK → Server API → callback with result
-            GeoHelper.isFeatureEnabled(this, featureName) { enabled, value ->
+        features.forEach { feature ->
+            GeoHelper.isFeatureEnabled(this, feature.featureName) { enabled, value ->
                 runOnUiThread {
-                    // Add feature status to list
                     featureStatuses.add(
                         FeatureStatus(
-                            name = featureName,
+                            name = feature.featureName,
                             enabled = enabled,
                             value = value,
                             countryCode = currentCountry
@@ -87,8 +93,7 @@ class FeaturesListActivity : AppCompatActivity() {
                     )
 
                     checkedCount++
-                    // When all features checked, update the UI
-                    if (checkedCount == featuresToCheck.size) {
+                    if (checkedCount == features.size) {
                         featureAdapter.updateFeatures(featureStatuses.sortedBy { it.name })
                     }
                 }
@@ -96,6 +101,9 @@ class FeaturesListActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Handle toolbar back button to close activity.
+     */
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true

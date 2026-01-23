@@ -35,7 +35,6 @@ object CurrencyFormatter {
 
 
     fun formatPrice(price: Double, countryCode: String): String {
-        val currency = getCurrencyInfo(countryCode)
         val convertedPrice = convertPrice(price, countryCode)
 
         return when (countryCode.uppercase()) {
